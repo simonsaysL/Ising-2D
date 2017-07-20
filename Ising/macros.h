@@ -1,0 +1,24 @@
+/***************DEFINIZIONE DI MACROS**************************/
+/*macros da utilizzare per i file isingopt.c e montecarloopt.c*/
+#ifndef L
+#define L 50   /*dimensione lineare del reticolo*/
+#endif
+
+#ifndef T
+#define T 2.5  /*temperatura del sistema*/
+#endif
+
+#ifndef SWEEP 
+#define SWEEP 10000  /*numero di iterazioni montecarlo (sweep)*/
+#endif
+
+#ifndef SEED 
+#define SEED 1  /*seme per il generatore di numeri casuali*/
+#endif
+
+#ifndef PT
+#define PT 10000     /*ogni quanti sweep bisogna stampare*/
+#endif
+
+#define GAMMA 4
+/***************************************************************/

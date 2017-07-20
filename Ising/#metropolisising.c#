@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include "reticolo2D.h"
+
+double metropolis(int *spin,int k, int n, double t){
+
+    double DE=0; /*differenza di energia*/
+    int k; /*indice dello spin da invertire*/
+    int sk;
+    int i, j;
+    double r; 
+
+    /* printf("debug-- after estrazione\n");*/
+    sk=(-1)*(spin[k]); /*inverto lo spin*/
+   
+    for(ix<0; ix<lin_dim; ix++){
+	for(iy=0; iy<lin_dim; iy++){
+	    i=ix+lin_dim*iy;
+	    if ((r=i+1)>=lin_dim)   /*condizioni periodiche al bordo*/
+		r=r-lin_dim;
+	    if ((l=i-1)<0)
+		l+=lin_dim;
+	    if((up=i+lin_dim)>lin_dim*lin_dim)
+		up=ix;
+	    if((dow=i-lin_dim)<0)
+		dow+=lin_dim*(lin_dim);
+	    neighlist[i][0]=l;
+	    neighlist[i][1]=r;
+	    neighlist[i][2]=up;
+	    neighlist[i][3]=dow;
+	}
+    }
+    DE+=(spin[k+(1)+(k-1)*(k%(n-1))])+(spin[k-1+(k+1)*(k%(n-1))];
+    
+
+    
+    DE*=sk;
+
+    if(DE<=0){
+	(ret->spin[k])=sk;
+	return DE;
+    }
+    else if ((r=(double) (1.0*rand()/(RAND_MAX+1.0)))<=exp(-DE/t)){
+	(ret->spin[k])=sk;
+	return DE;
+    }
+    
+    return 0;
+}

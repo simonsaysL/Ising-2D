@@ -1,0 +1,79 @@
+/*INCLUSIONE DI HEADER STANDARD*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+/*INCLUSIONE DI HEADER USER DEFINED*/
+#include "macros.h"
+#include "reticolo2D.h"
+#include "montecarlo.h"
+
+FILE *montecarlo(int *spin, double *prob){
+
+  FILE *output;
+  int i, ix, iy, k;
+  int *M, E;  /*magnetizzazione estensiva, Energia estensiva*/
+  double m, e;   /*magnetizzazione intensiva, Energia intensiva*/
+  
+
+  /*APERTURA FILE DI OUTPUT*/
+  output=openoutputtemp(t);
+  
+  /*printf("debug-- %s\n", *output);*/
+  
+  
+
+  for(k=0; k<n; k++){
+      (*M)+=spin[k]
+      for(l=0; l<4; l++)
+	  E-=(spin[k]*(spin[neigh[k][l]]))/2.;
+  }
+  
+  /*ROUTINE DI INTEGRAZIONE*/ 
+  for (i=0; i<SWEEP; i++){          /*esegui SWEEP sweep (vedi macros.h)*/
+      for(ix=0; ix<L; ix++){
+	  for(iy=0; iy<L; iy++){
+	      k=ix+L*iy;
+	      DE=spin[k](spin[k+L*((iy+L-1)%L)])*(spin[k-L*((iy+L-1)%L)]);
+	      E+=accept(DE, spin, (ix+L*iy) , prob, M);
+	      /*M e' aggiornata da accept*/
+	  }
+      }
+      if (i%P==0){        /*stampa ogni P sweep (vedi macros.h)*/
+	/*printf("debug-- stampa a i=%d\n", i);*/
+	m=(double) M/(double) n;
+	e=(double) E/(double) n;
+	fprintf(output,"%d %f %f\n", i, m, e);
+	fflush(output);
+    }
+  }
+  
+  printf("dati scritti in ising2D_t%.3lf.dat\n", t);
+  return (output);
+    
+}
+
+FILE *openoutputtemp(double t){
+
+  char name[30];
+  FILE *output;
+ 
+  sprintf(name,"ising2D_t%.3lf.dat", t);
+  if((output=fopen(name, "w"))==NULL){
+    printf("ERROR WHILE OPENING OUTPUT FILE\n");
+    exit (1);
+  }  
+  /*printf("debug--inside %s\n", *output);*/
+  return (output);
+}
+
+
+int accept(int *spin, int k, double *prob, int *M, int DE){
+
+    if((DE<=0) || (((double) (1.0*rand()/(RAND_MAX+1.0)))<=prob[DE])){
+	(spin[k])*=-1;
+	(*M)+=
+	return (2*DE);
+    }
+    
+    return ;
+}
